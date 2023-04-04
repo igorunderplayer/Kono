@@ -8,16 +8,17 @@ import org.slf4j.LoggerFactory
 class CommandManager(private val kord: Kord)  {
     private val logger = LoggerFactory.getLogger(this::class.java)
     companion object {
-        val commands = mutableListOf<BaseCommand>()
+        val commandList = mutableListOf<BaseCommand>()
     }
 
     fun start() {
         registerCommand(Avatar())
         registerCommand(Info())
+        registerCommand(Help())
     }
 
     private fun registerCommand(command: BaseCommand) {
-        val commandFound = commands.any {
+        val commandFound = commandList.any {
             it.name.lowercase() == command.name.lowercase()
         }
 
@@ -30,13 +31,13 @@ class CommandManager(private val kord: Kord)  {
             return
         }
 
-        commands.add(command)
+        commandList.add(command)
     }
 
     private fun searchCommand (search: String): BaseCommand? {
         val lowerCase = search.lowercase()
 
-        return commands.find {
+        return commandList.find {
             it.name == lowerCase
         }
     }

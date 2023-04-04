@@ -1,5 +1,6 @@
 package me.igorunderplayer.kono.commands.testing
 
+import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.event.message.MessageCreateEvent
 import kotlinx.coroutines.flow.count
@@ -38,6 +39,7 @@ class Info: BaseCommand(
 
         event.message.channel.createEmbed {
             description = descriptionBuilder.toString()
+            color = Color(2895667)
         }
     }
 }

@@ -1,5 +1,6 @@
 package me.igorunderplayer.kono.commands.testing
 
+import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.BaseCommand
@@ -22,6 +23,7 @@ class Avatar: BaseCommand(
         event.message.channel.createEmbed {
             description = "[Download]($fullAvatarUrl)"
             image = avatarUrl
+            color = Color(2895667)
         }
     }
 }
