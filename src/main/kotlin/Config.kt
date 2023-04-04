@@ -4,6 +4,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
+
+// Saw this on https://github.com/davidffa/D4rkBotKt/blob/main/src/main/kotlin/me/davidffa/d4rkbotkt/Credentials.kt
 class Config {
     val token: String get() = properties.getProperty("TOKEN")
 
