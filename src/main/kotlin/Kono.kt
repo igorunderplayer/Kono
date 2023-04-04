@@ -21,7 +21,7 @@ class Kono {
     @OptIn(PrivilegedIntent::class)
     suspend fun start() {
         config = Config()
-        config.load(this::class.java.classLoader.getResource("config.properties")?.path ?: "")
+        config.load("./config.properties")
 
         kord = Kord(config.token)
 
