@@ -5,11 +5,15 @@ import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.testing.*
 import org.slf4j.LoggerFactory
 
+enum class CommandCategory {
+    Util,
+    Misc,
+    Other
+}
+
 class CommandManager(private val kord: Kord)  {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    companion object {
-        val commandList = mutableListOf<BaseCommand>()
-    }
+    val commandList = mutableListOf<BaseCommand>()
 
     fun start() {
         registerCommand(Avatar())
@@ -23,7 +27,6 @@ class CommandManager(private val kord: Kord)  {
         }
 
         if (commandFound) {
-
             val red = "\u001b[31m"
             val reset = "\u001b[0m"
 
@@ -34,11 +37,11 @@ class CommandManager(private val kord: Kord)  {
         commandList.add(command)
     }
 
-    private fun searchCommand (search: String): BaseCommand? {
+    fun searchCommand (search: String): BaseCommand? {
         val lowerCase = search.lowercase()
 
         return commandList.find {
-            it.name == lowerCase
+            it.name == lowerCase || it.aliases.contains(lowerCase)
         }
     }
 

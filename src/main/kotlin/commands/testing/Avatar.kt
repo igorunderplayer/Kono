@@ -4,11 +4,14 @@ import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.BaseCommand
+import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.getMentionedUser
 
 class Avatar: BaseCommand(
     "avatar",
-    "mostra o avatar de alguem"
+    "mostra o avatar de alguem",
+    aliases = listOf("icon"),
+    category = CommandCategory.Util
 ) {
     override suspend fun run(event: MessageCreateEvent, args: Array<String>) {
         val user = getMentionedUser(event.message, args) ?: event.kord.getSelf()

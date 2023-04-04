@@ -20,8 +20,7 @@ class Kono {
 
     @OptIn(PrivilegedIntent::class)
     suspend fun start() {
-        config = Config()
-        config.load("./config.properties")
+        config = Config().load()
 
         kord = Kord(config.token)
 
