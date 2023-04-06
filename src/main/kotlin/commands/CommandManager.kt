@@ -19,6 +19,8 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(Avatar())
         registerCommand(Info())
         registerCommand(Help())
+
+        registerCommand(Draw())
     }
 
     private fun registerCommand(command: BaseCommand) {

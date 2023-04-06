@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     kotlin("jvm") version "1.7.21"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     application
 }
 
@@ -18,32 +20,25 @@ dependencies {
     implementation("dev.kord:kord-core:0.8.2")
     implementation("ch.qos.logback:logback-core:1.4.6")
     implementation("ch.qos.logback:logback-classic:1.4.6")
-
 }
 
 tasks {
-    val fatJar = register<Jar>("fatJar") {
-        dependsOn.addAll(listOf("compileJava", "compileKotlin", "processResources")) // We need this for Gradle optimization to work
-        archiveClassifier.set("standalone") // Naming the jar
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        manifest { attributes(mapOf("Main-Class" to application.mainClass)) } // Provided we set it up in the application plugin configuration
-        val sourcesMain = sourceSets.main.get()
-        val contents = configurations.runtimeClasspath.get()
-            .map { if (it.isDirectory) it else zipTree(it) } +
-                sourcesMain.output
-       from(contents)
+
+    test {
+        useJUnitPlatform()
     }
+
     build {
-        dependsOn(fatJar) // Trigger fat jar creation during build
+        mustRunAfter("clean", "test")
     }
-}
 
-tasks.test {
-    useJUnitPlatform()
-}
+    withType<ShadowJar> {
+        archiveFileName.set("KonoBot.jar")
+    }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "16"
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }
 
 
