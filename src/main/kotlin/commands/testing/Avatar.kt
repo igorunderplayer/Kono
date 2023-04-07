@@ -3,6 +3,7 @@ package me.igorunderplayer.kono.commands.testing
 import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.event.message.MessageCreateEvent
+import dev.kord.rest.Image
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.getMentionedUser
@@ -18,10 +19,17 @@ class Avatar: BaseCommand(
 
         val avatar = user.avatar
 
-        val format = if (avatar?.animated == true) "gif" else "png"
+        val avatarFormat = if (avatar?.animated == true) Image.Format.GIF else Image.Format.PNG
 
-        val fullAvatarUrl = avatar?.cdnUrl?.toUrl()?.replace(avatar.format.extension, format, true) + "?size=4096"
-        val avatarUrl = avatar?.cdnUrl?.toUrl()?.replace(avatar.format.extension, format, true) + "?size=2048"
+        val fullAvatarUrl = avatar?.cdnUrl?.toUrl {
+            size = Image.Size.Size4096
+            format = avatarFormat
+        }
+
+        val avatarUrl = avatar?.cdnUrl?.toUrl {
+            size = Image.Size.Size1024
+            format = avatarFormat
+        }
 
         event.message.channel.createEmbed {
             description = "[Download]($fullAvatarUrl)"

@@ -24,12 +24,6 @@ class Kono {
 
         kord = Kord(config.token)
 
-        val channelId = Snowflake(989541033018810478)
-
-        kord.rest.channel.createMessage(channelId) {
-            content = "Mas bah tchê, me ligaro aqui"
-        }
-
         logger.info(
             """
              
