@@ -8,9 +8,12 @@ import io.ktor.client.request.forms.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
+import me.igorunderplayer.kono.entities.UserDB
 import me.igorunderplayer.kono.utils.getMentionedUser
+import me.igorunderplayer.kono.utils.getOrCreateDBUser
 import java.awt.Color
 import java.awt.Font
 import java.awt.geom.Ellipse2D
@@ -26,8 +29,10 @@ class Profile : BaseCommand(
     aliases = listOf("perfil")
 ) {
     override suspend fun run(event: MessageCreateEvent, args: Array<String>) {
-        val width = 512
-        val height = 512
+        val width = 800
+        val height = 600
+
+        if (event.guildId == null) return
 
         val user = getMentionedUser(event.message, args)
 
@@ -39,9 +44,25 @@ class Profile : BaseCommand(
             return
         }
 
+        val xpUser = Kono.cache.getXPInfoFromUser(event.guildId!!, user.id)
+        val xpToLevelUp = Kono.cache.getXPToLevelUP(xpUser)
+
+        val dbUser = getOrCreateDBUser(
+            Kono.db.usersCollection,
+            user.id.toString()
+        )
+
+        if (dbUser == null) {
+            event.message.reply {
+                content = "Usuario não encontrado"
+            }
+
+            return
+        }
+
         val profileImageBuffer = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val g2 = profileImageBuffer.createGraphics()
-        g2.color = Color.DARK_GRAY
+        g2.color = Color(49, 51, 56)
         g2.fillRect(0, 0, width, height)
 
 
@@ -50,10 +71,15 @@ class Profile : BaseCommand(
         val subInfoFont = Font("Arial", Font.ITALIC, 24)
         g2.font = nameFont
         g2.paint = Color.WHITE
-        g2.drawString(user.username, 152, 76)
+        g2.drawString(user.username, 152, 46)
+        val fontMetrics = g2.fontMetrics
+        val stringWidth = fontMetrics.stringWidth(user.username)
         g2.font = subInfoFont
         g2.paint = Color.LIGHT_GRAY
-        g2.drawString('#' + user.discriminator, 152, 110)
+        g2.drawString('#' + user.discriminator, 152 + stringWidth + 4, 46)
+        g2.drawString("${dbUser.koins} Koins", 152, 78)
+        g2.drawString("Level: ${xpUser.level}", 152, 106)
+        g2.drawString("XP: ${xpUser.actualXp}/$xpToLevelUp", 152, 134)
 
         // Draw avatar
         val avatar = URL((user.avatar ?: user.defaultAvatar).cdnUrl.toUrl {

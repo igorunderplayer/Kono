@@ -1,6 +1,8 @@
 package me.igorunderplayer.kono.commands
 
+import dev.kord.common.entity.Permission
 import dev.kord.core.Kord
+import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.testing.*
 import org.slf4j.LoggerFactory
@@ -8,7 +10,8 @@ import org.slf4j.LoggerFactory
 enum class CommandCategory {
     Util,
     Misc,
-    Other
+    Other,
+    Management
 }
 
 class CommandManager(private val kord: Kord)  {
@@ -21,6 +24,7 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(Help())
 
         registerCommand(Profile())
+        registerCommand(SetXP())
     }
 
     private fun registerCommand(command: BaseCommand) {
@@ -59,6 +63,22 @@ class CommandManager(private val kord: Kord)  {
             val mention = args.removeAt(0)
             if (mentionRegExp.matches(mention)) {
                 val command = searchCommand(args.removeAt(0)) ?: return
+
+                if (command.category == CommandCategory.Management) {
+                    val member = event.message.getAuthorAsMemberOrNull() ?: return
+                    val permissions = member.getPermissions()
+
+                    if (
+                        !permissions.contains(Permission.ManageGuild) ||
+                        !permissions.contains(Permission.Administrator)
+                    ) {
+                        event.message.reply {
+                            content = "Você não tem permissão para executar este comando"
+                        }
+                        return
+                    }
+                }
+
                 command.run(event, args.toTypedArray())
             }
         } catch (_: Exception) {} // TODO

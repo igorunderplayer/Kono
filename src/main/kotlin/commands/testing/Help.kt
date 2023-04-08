@@ -50,6 +50,12 @@ class Help: BaseCommand(
             "▸ ${it.name} - `${it.description}`"
         }
 
+        val managementCommands = Kono.commands.commandList.filter {
+            it.category == CommandCategory.Management
+        }.map {
+            "▸ ${it.name} - `${it.description}`"
+        }
+
         val otherCommands = Kono.commands.commandList.filter {
             it.category == CommandCategory.Other
         }.map {
@@ -64,6 +70,10 @@ class Help: BaseCommand(
             field {
                 name = "\uD83E\uDD73 Miscelânea"
                 value = miscCommands.joinToString("\n")
+            }
+            field {
+                name = "\uD83D\uDEE0 Gerenciamento"
+                value = managementCommands.joinToString("\n")
             }
             field {
                 name = "\uD83E\uDD14 Outros"

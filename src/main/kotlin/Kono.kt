@@ -1,6 +1,5 @@
 package me.igorunderplayer.kono
 
-import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
@@ -14,6 +13,8 @@ class Kono {
         lateinit var events: EventManager
         lateinit var commands: CommandManager
         lateinit var config: Config
+        lateinit var db: Database
+        lateinit var cache: Cache
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -22,7 +23,13 @@ class Kono {
     suspend fun start() {
         config = Config().load()
 
+        db = Database()
+        db.start()
+
         kord = Kord(config.token)
+
+        cache = Cache()
+        cache.start()
 
         logger.info(
             """
