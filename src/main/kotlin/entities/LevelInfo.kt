@@ -9,7 +9,7 @@ data class LevelInfo @BsonCreator constructor (
     val userId: String,
 
     @BsonProperty
-    var actualXp: Long = 0,
+    var actualXp: Int = 0,
 
     @BsonProperty
     var level: Int = 0,

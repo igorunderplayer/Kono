@@ -16,6 +16,7 @@ import me.igorunderplayer.kono.utils.getMentionedUser
 import me.igorunderplayer.kono.utils.getOrCreateDBUser
 import java.awt.Color
 import java.awt.Font
+import java.awt.RenderingHints
 import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
@@ -62,6 +63,7 @@ class Profile : BaseCommand(
 
         val profileImageBuffer = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val g2 = profileImageBuffer.createGraphics()
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         g2.color = Color(49, 51, 56)
         g2.fillRect(0, 0, width, height)
 
@@ -91,8 +93,23 @@ class Profile : BaseCommand(
             ImageIO.read(avatar)
         }
 
+        // Border
+        val center = 76f
+        val borderRadius = 70f
+        g2.color = Color(82, 201, 224)
+        g2.fill(Ellipse2D.Float(center - borderRadius, center - borderRadius, 2f * borderRadius, 2f * borderRadius))
+
+        // Avatar image
+        val imageRadius = 64
         g2.clip = Ellipse2D.Float(12f, 12f, 128f, 128f)
-        g2.drawImage(avatarImage, 12, 12, 128, 128, null)
+        g2.drawImage(
+            avatarImage,
+            center.toInt() - imageRadius,
+            center.toInt() - imageRadius,
+            (2 * imageRadius),
+            (2 * imageRadius),
+            null
+        )
 
 
         ByteArrayOutputStream().use {

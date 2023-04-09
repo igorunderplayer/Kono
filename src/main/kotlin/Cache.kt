@@ -35,12 +35,12 @@ class Cache {
     }
 
     private suspend fun setupXPCache() {
-        Kono.db.guildsCollection.find().toList().forEach {
+        Kono.db.guildsCollection.find().toFlow().collect {
             levelingGuilds[Snowflake(it.id)] = it.levelingInfo
         }
     }
 
-    suspend fun addXPToUser(guildId: Snowflake, userId: Snowflake, xp: Long) {
+    suspend fun addXPToUser(guildId: Snowflake, userId: Snowflake, xp: Int) {
         var value = LevelInfo(userId.toString(), xp)
 
         var guildCache = levelingGuilds[guildId]
@@ -73,7 +73,7 @@ class Cache {
         return levelingGuilds[guildId]?.get(userId.toString()) ?: LevelInfo(userId.toString())
     }
 
-    private fun checkLevelUp(actualLevelInfo: LevelInfo, xp: Long): LevelInfo {
+    private fun checkLevelUp(actualLevelInfo: LevelInfo, xp: Int): LevelInfo {
         val xpToLevelUp = getXPToLevelUP(actualLevelInfo)
         val copyInfo = actualLevelInfo.copy()
 
@@ -90,7 +90,7 @@ class Cache {
         }
     }
 
-    fun getXPToLevelUP(actualLevelInfo: LevelInfo) : Long {
-        return if (actualLevelInfo.level == 0) 1500 else actualLevelInfo.level / 2 * 1500L
+    fun getXPToLevelUP(actualLevelInfo: LevelInfo) : Int {
+        return ((actualLevelInfo.level + 1.0) / 2.0  * 1500).toInt()
     }
 }

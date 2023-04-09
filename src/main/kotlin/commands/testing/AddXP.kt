@@ -18,7 +18,7 @@ class SetXP: BaseCommand(
 
         if (event.guildId == null) return
 
-        Kono.cache.addXPToUser(event.guildId!!, user.id, args[1].toLong())
+        Kono.cache.addXPToUser(event.guildId!!, user.id, args[1].toInt())
 
         event.message.reply {
             content = "XP adicionado!!"

@@ -10,7 +10,7 @@ suspend fun onMessageCreate(event: MessageCreateEvent) {
     val memberOrNull = event.message.getAuthorAsMemberOrNull()
 
     if (guildOrNull != null && memberOrNull != null) {
-        val xp = (1 + 0.5f * event.message.content.length).toLong()
+        val xp = (1 + 0.5f * event.message.content.length).toInt()
 
         Kono.cache.addXPToUser(guildOrNull.id, memberOrNull.id, xp)
     }
