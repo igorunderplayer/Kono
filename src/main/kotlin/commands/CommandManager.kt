@@ -24,7 +24,7 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(Help())
 
         registerCommand(Profile())
-        registerCommand(SetXP())
+        registerCommand(AddXP())
         registerCommand(Rank())
         registerCommand(Clear())
     }
