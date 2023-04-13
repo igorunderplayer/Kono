@@ -2,7 +2,6 @@ package me.igorunderplayer.kono.commands.testing
 
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
-import dev.kord.core.kordLogger
 import dev.kord.rest.Image
 import io.ktor.client.request.forms.*
 import io.ktor.utils.io.*
@@ -11,7 +10,6 @@ import kotlinx.coroutines.withContext
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
-import me.igorunderplayer.kono.entities.UserDB
 import me.igorunderplayer.kono.utils.getMentionedUser
 import me.igorunderplayer.kono.utils.getOrCreateDBUser
 import java.awt.Color

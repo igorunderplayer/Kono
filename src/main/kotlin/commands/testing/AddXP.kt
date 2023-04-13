@@ -7,7 +7,7 @@ import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.getMentionedUser
 
-class SetXP: BaseCommand(
+class AddXP : BaseCommand(
     "addxp",
     "adiciona xp para alguem",
     category = CommandCategory.Management
