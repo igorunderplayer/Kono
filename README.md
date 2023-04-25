@@ -3,4 +3,4 @@
 
 # TODO
 
-[ ] a terms page
+- [ ] a terms page
