@@ -2,3 +2,5 @@
 
 
 # TODO
+
+[] a terms page
