@@ -5,6 +5,8 @@ import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import me.igorunderplayer.kono.commands.CommandManager
 import me.igorunderplayer.kono.events.EventManager
+import no.stelar7.api.r4j.basic.APICredentials
+import no.stelar7.api.r4j.impl.R4J
 import org.slf4j.LoggerFactory
 
 class Kono {
@@ -15,6 +17,8 @@ class Kono {
         lateinit var config: Config
         lateinit var db: Database
         lateinit var cache: Cache
+
+        lateinit var riot: R4J
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -30,6 +34,8 @@ class Kono {
 
         cache = Cache()
         cache.start()
+
+        riot = R4J(APICredentials(config.riotApiKey))
 
         logger.info(
             """

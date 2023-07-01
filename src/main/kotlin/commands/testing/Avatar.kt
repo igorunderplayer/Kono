@@ -19,7 +19,7 @@ class Avatar: BaseCommand(
 
         val avatar = user.avatar
 
-        val avatarFormat = if (avatar?.animated == true) Image.Format.GIF else Image.Format.PNG
+        val avatarFormat = if (avatar?.isAnimated == true) Image.Format.GIF else Image.Format.PNG
 
         val fullAvatarUrl = avatar?.cdnUrl?.toUrl {
             size = Image.Size.Size4096

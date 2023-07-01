@@ -8,6 +8,7 @@ import java.util.*
 class Config {
     val token: String get() = properties.getProperty("TOKEN")
     val mongoUri: String get() = properties.getProperty("MONGO_URI")
+    val riotApiKey: String get() = properties.getProperty("RIOT_API_KEY")
 
     private val properties = Properties()
 
@@ -18,6 +19,7 @@ class Config {
         } catch (_: Exception) {
             properties.setProperty("TOKEN", System.getenv("TOKEN"))
             properties.setProperty("MONGO_URI", System.getenv("MONGO_URI"))
+            properties.setProperty("RIOT_API_KEY", System.getenv("RIOT_API_KEY"))
         }
 
         return this

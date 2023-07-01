@@ -33,7 +33,7 @@ class Clear : BaseCommand(
             "Mensagens apagadas por ${event.message.author?.tag} (${event.message.author?.id})"
         )
 
-        val messageReply = event.message.reply {
+        event.message.reply {
             content = "$count mensagens apagadas por ${event.message.author?.mention}"
         }
     }

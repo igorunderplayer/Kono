@@ -4,6 +4,8 @@ import dev.kord.common.entity.Permission
 import dev.kord.core.Kord
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
+import me.igorunderplayer.kono.commands.lol.LoLChampion
+import me.igorunderplayer.kono.commands.lol.LoLProfile
 import me.igorunderplayer.kono.commands.testing.*
 import org.slf4j.LoggerFactory
 
@@ -11,7 +13,8 @@ enum class CommandCategory {
     Util,
     Misc,
     Other,
-    Management
+    Management,
+    LoL
 }
 
 class CommandManager(private val kord: Kord)  {
@@ -27,6 +30,9 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(AddXP())
         registerCommand(Rank())
         registerCommand(Clear())
+
+        registerCommand(LoLProfile())
+        registerCommand(LoLChampion())
     }
 
     private fun registerCommand(command: BaseCommand) {

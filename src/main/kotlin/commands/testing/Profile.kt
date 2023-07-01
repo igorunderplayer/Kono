@@ -7,11 +7,15 @@ import io.ktor.client.request.forms.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import me.igorunderplayer.kono.Config
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.getMentionedUser
 import me.igorunderplayer.kono.utils.getOrCreateDBUser
+import no.stelar7.api.r4j.basic.APICredentials
+import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
+import no.stelar7.api.r4j.impl.R4J
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
