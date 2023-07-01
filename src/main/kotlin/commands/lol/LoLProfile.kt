@@ -14,15 +14,12 @@ class LoLProfile : BaseCommand(
     "Mostra perfil do lol de alguem",
     category = CommandCategory.LoL
 ) {
-
-    private val champions = Kono.riot.dDragonAPI.champions
     override suspend fun run(event: MessageCreateEvent, args: Array<String>) {
         val query = args.joinToString(" ")
+
+        val champions = Kono.riot.dDragonAPI.champions
         val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByName(LeagueShard.BR1, query) ?: return
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
-        val champ = champions[summoner.championMasteries.first().championId]
-
-        println(summonerIcon.image.full)
 
         event.message.reply {
             embed {
