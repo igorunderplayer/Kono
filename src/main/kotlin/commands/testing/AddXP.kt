@@ -13,7 +13,6 @@ class AddXP : BaseCommand(
     category = CommandCategory.Management
 ) {
     override suspend fun run(event: MessageCreateEvent, args: Array<String>) {
-
         val user = getMentionedUser(event.message, args) ?: return
 
         if (event.guildId == null) return

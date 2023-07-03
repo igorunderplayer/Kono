@@ -1,6 +1,7 @@
 package me.igorunderplayer.kono
 
 import dev.kord.core.Kord
+import dev.kord.core.entity.Emoji
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import me.igorunderplayer.kono.commands.CommandManager
@@ -19,6 +20,7 @@ class Kono {
         lateinit var cache: Cache
 
         lateinit var riot: R4J
+        lateinit var emojis: List<Emoji>
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)

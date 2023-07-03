@@ -5,6 +5,7 @@ import dev.kord.core.Kord
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.lol.LoLChampion
+import me.igorunderplayer.kono.commands.lol.LoLMatches
 import me.igorunderplayer.kono.commands.lol.LoLProfile
 import me.igorunderplayer.kono.commands.testing.*
 import org.slf4j.LoggerFactory
@@ -33,6 +34,7 @@ class CommandManager(private val kord: Kord)  {
 
         registerCommand(LoLProfile())
         registerCommand(LoLChampion())
+        registerCommand(LoLMatches())
     }
 
     private fun registerCommand(command: BaseCommand) {
@@ -77,7 +79,7 @@ class CommandManager(private val kord: Kord)  {
                     val permissions = member.getPermissions()
 
                     if (
-                        !permissions.contains(Permission.ManageGuild) ||
+                        !permissions.contains(Permission.ManageGuild) &&
                         !permissions.contains(Permission.Administrator)
                     ) {
                         event.message.reply {

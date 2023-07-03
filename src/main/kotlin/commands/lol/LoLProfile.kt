@@ -29,10 +29,26 @@ class LoLProfile : BaseCommand(
                 }
 
                 field {
+                    name = "Ranqueado"
+                    inline = true
+                    value = summoner.leagueEntry.joinToString("\n") { leagueEntry ->
+                        val type = leagueEntry.queueType.prettyName().replace("5v5", "")
+                        val rank = leagueEntry.rank
+                        val rankTier = leagueEntry.tier
+                        val pdl = leagueEntry.leaguePoints
+
+                        "${type}: $rankTier $rank ($pdl PDL)"
+                    }
+                }
+
+                field {
                     name = "Melhores campeões"
-                    value = summoner.championMasteries.slice(IntRange(0, 3)).joinToString("\n") {
-                        val champion = champions[it.championId]
-                        "${champion!!.name} - ${formatNumber(it.championPoints)}"
+                    inline = true
+                    value = summoner.championMasteries.slice(IntRange(0, 4)).joinToString("\n") { championMastery ->
+                        val champion = champions[championMastery.championId]!!
+                        val emoji = Kono.emojis.firstOrNull { it.name == "lolchampion_${champion.key}" }
+                        val iconText = emoji?.mention ?: champion.name
+                        "$iconText ${champion.name} - ${formatNumber(championMastery.championPoints)}"
                     }
                 }
             }
