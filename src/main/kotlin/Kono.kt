@@ -15,7 +15,6 @@ class Kono {
         lateinit var kord: Kord
         lateinit var events: EventManager
         lateinit var commands: CommandManager
-        lateinit var config: Config
         lateinit var db: Database
         lateinit var cache: Cache
 
@@ -27,17 +26,15 @@ class Kono {
 
     @OptIn(PrivilegedIntent::class)
     suspend fun start() {
-        config = Config().load()
-
         db = Database()
         db.start()
 
-        kord = Kord(config.token)
+        kord = Kord(Config.token)
 
         cache = Cache()
         cache.start()
 
-        riot = R4J(APICredentials(config.riotApiKey))
+        riot = R4J(APICredentials(Config.riotApiKey))
 
         logger.info(
             """

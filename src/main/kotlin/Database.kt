@@ -13,8 +13,7 @@ class Database {
     lateinit var usersCollection: CoroutineCollection<UserDB>
     lateinit var guildsCollection: CoroutineCollection<GuildDB>
 
-
-    private val connectionString = ConnectionString(Kono.config.mongoUri)
+    private val connectionString = ConnectionString(Config.mongoUri)
 
     private val settings = MongoClientSettings.builder()
         .applyConnectionString(connectionString)

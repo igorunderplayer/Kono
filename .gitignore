@@ -2,6 +2,8 @@
 config.properties
 
 
+/l4j8cache
+
 # Kotlin
 
 .DS_Store

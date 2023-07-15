@@ -21,15 +21,25 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
+    implementation(kotlin("stdlib-jdk8"))
+
+    // Discord
     implementation("dev.kord:kord-core:0.9.0")
 
+    // Logging
     implementation("ch.qos.logback:logback-core:1.4.6")
     implementation("ch.qos.logback:logback-classic:1.4.6")
 
+    // Mongo
     implementation("org.litote.kmongo:kmongo-coroutine:4.8.0")
-    implementation(kotlin("stdlib-jdk8"))
 
+    // Riot
     implementation("com.github.stelar7:R4J:2.2.15")
+
+    // Ktor
+    implementation("io.ktor:ktor-server-core-jvm:2.3.2")
+    implementation("io.ktor:ktor-server-netty-jvm:2.3.2")
+    implementation("io.ktor:ktor-server-freemarker:2.3.2")
 }
 
 tasks {
