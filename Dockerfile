@@ -7,7 +7,7 @@ WORKDIR /app
 RUN microdnf install findutils
 RUN ./gradlew --no-daemon build shadowJar
 
-COPY config.properties /app/build/libs/config.properties
+COPY config.properties? /app/build/libs/
 
 WORKDIR /app/build/libs
 
