@@ -38,8 +38,12 @@ class Server {
 
                         val discordUser = Kono.kord.getUser(Snowflake(userId!!))
 
-                        call.respondTemplate("index.ftl", mapOf("user" to user, "discord" to discordUser))
+                        call.respondTemplate("user.ftl", mapOf("user" to user, "discord" to discordUser))
                     }
+                }
+
+                get {
+                    call.respondTemplate("index.ftl", mapOf("bot" to Kono.kord.getSelf()))
                 }
             }
         }.start(wait = true)

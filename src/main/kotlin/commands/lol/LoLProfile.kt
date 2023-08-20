@@ -8,6 +8,7 @@ import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.formatNumber
 import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
+import no.stelar7.api.r4j.basic.constants.types.lol.GameQueueType
 
 class LoLProfile : BaseCommand(
     "lolprofile",
@@ -17,11 +18,12 @@ class LoLProfile : BaseCommand(
     override suspend fun run(event: MessageCreateEvent, args: Array<String>) {
         val query = args.joinToString(" ")
 
+        val blank = "<:transparent:1142620050952556616>"
         val champions = Kono.riot.dDragonAPI.champions
         val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByName(LeagueShard.BR1, query) ?: return
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
 
-        event.message.reply {
+            event.message.reply {
             embed {
                 author {
                     name = "${summoner.name} - ${summoner.platform}"
@@ -31,14 +33,16 @@ class LoLProfile : BaseCommand(
                 field {
                     name = "Ranqueado"
                     inline = true
-                    value = summoner.leagueEntry.joinToString("\n") { leagueEntry ->
-                        val type = leagueEntry.queueType.prettyName().replace("5v5", "")
-                        val rank = leagueEntry.rank
-                        val rankTier = leagueEntry.tier
-                        val pdl = leagueEntry.leaguePoints
+                    value = summoner.leagueEntry
+                        .filter { it.queueType != GameQueueType.CHERRY }
+                        .joinToString("\n") { leagueEntry ->
+                            val type = leagueEntry.queueType.prettyName().replace("5v5", "")
+                            val rank = leagueEntry.rank
+                            val rankTier = leagueEntry.tier
+                            val pdl = leagueEntry.leaguePoints
 
-                        "${type}: $rankTier $rank ($pdl PDL)"
-                    }
+                            "${type}: $rankTier $rank ($pdl PDL) $blank"
+                        }
                 }
 
                 field {

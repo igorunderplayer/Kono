@@ -25,7 +25,6 @@ class LoLMatches : BaseCommand(
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
         val matches = Kono.riot.loLAPI.matchAPI.getMatchList(RegionShard.AMERICAS, summoner.puuid, null, null, 0, 5, null, null)
 
-
         val embedFields = matches.map { matchId ->
             val field = EmbedBuilder.Field()
             val match = Kono.riot.loLAPI.matchAPI.getMatch(RegionShard.AMERICAS, matchId)
@@ -42,7 +41,6 @@ class LoLMatches : BaseCommand(
 
             field
         }.toMutableList()
-
 
         event.message.reply {
             content = "é isso ae"

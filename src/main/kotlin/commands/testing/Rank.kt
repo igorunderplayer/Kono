@@ -19,7 +19,8 @@ class Rank : BaseCommand(
             it.second.actualXp + (it.second.level + 1) / 2 * 1500
         }.reversed()
 
-        val strings = sorted.slice(IntRange(0, if (sorted.size < 10) sorted.size - 1 else 10)).mapIndexed { index, level ->
+        val count = if (sorted.size > 10) 10 else sorted.size - 1
+        val strings = sorted.slice(IntRange(0, count)).mapIndexed { index, level ->
             "`${index + 1}` | <@${level.second.userId}> = Nível ${level.second.level} - ${level.second.actualXp}/${Kono.cache.getXPToLevelUP(level.second)}XP"
         }
 
