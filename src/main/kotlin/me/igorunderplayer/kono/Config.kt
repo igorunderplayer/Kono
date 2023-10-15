@@ -23,8 +23,6 @@ class Config {
             properties.setProperty("MONGO_URI", System.getenv("MONGO_URI"))
             properties.setProperty("RIOT_API_KEY", System.getenv("RIOT_API_KEY"))
             properties.setProperty("PORT", System.getenv("PORT"))
-
-
         }
 
         return this
