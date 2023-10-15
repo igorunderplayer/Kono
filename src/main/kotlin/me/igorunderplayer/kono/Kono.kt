@@ -16,7 +16,6 @@ class Kono {
         lateinit var events: EventManager
         lateinit var commands: CommandManager
         lateinit var db: Database
-        lateinit var cache: Cache
 
         lateinit var riot: R4J
         lateinit var emojis: List<Emoji>
@@ -30,9 +29,6 @@ class Kono {
         db.start()
 
         kord = Kord(Config.token)
-
-        cache = Cache()
-        cache.start()
 
         riot = R4J(APICredentials(Config.riotApiKey))
 

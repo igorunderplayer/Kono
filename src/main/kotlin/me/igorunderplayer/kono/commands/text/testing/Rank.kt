@@ -21,7 +21,7 @@ class Rank : BaseCommand(
 
         val count = if (sorted.size > 10) 10 else sorted.size - 1
         val strings = sorted.slice(IntRange(0, count)).mapIndexed { index, level ->
-            "`${index + 1}` | <@${level.second.userId}> = Nível ${level.second.level} - ${level.second.actualXp}/${Kono.cache.getXPToLevelUP(level.second)}XP"
+            "`${index + 1}` | <@${level.second.userId}> = Nível ${level.second.level} - ${level.second.actualXp}/??XP"
         }
 
         event.message.reply {

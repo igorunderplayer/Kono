@@ -43,9 +43,6 @@ class Profile : BaseCommand(
             return
         }
 
-        val xpUser = Kono.cache.getXPInfoFromUser(event.guildId!!, user.id)
-        val xpToLevelUp = Kono.cache.getXPToLevelUP(xpUser)
-
         val dbUser = getOrCreateDBUser(
             Kono.db.usersCollection,
             user.id.toString()
@@ -78,8 +75,8 @@ class Profile : BaseCommand(
         g2.paint = Color.LIGHT_GRAY
         g2.drawString('#' + user.username, 152 + stringWidth + 4, 46)
         g2.drawString("${dbUser.koins} Koins", 152, 78)
-        g2.drawString("Level: ${xpUser.level}", 152, 106)
-        g2.drawString("XP: ${xpUser.actualXp}/$xpToLevelUp", 152, 134)
+        g2.drawString("Level: ??", 152, 106)
+        g2.drawString("XP: ??/???", 152, 134)
 
         // Draw avatar
         val avatar = URL((user.avatar ?: user.defaultAvatar).cdnUrl.toUrl {
