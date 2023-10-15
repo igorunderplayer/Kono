@@ -25,9 +25,11 @@ class LoLProfile() : KonoSlashCommand {
             }
 
             string("region", "summoner's region") {
-                for (shard in LeagueShard.values()) {
+                for (shard in LeagueShard.entries) {
                     choice(shard.prettyName(), shard.value)
                 }
+
+                required = true
             }
         }
     }
@@ -35,7 +37,15 @@ class LoLProfile() : KonoSlashCommand {
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val response = event.interaction.deferPublicResponse()
         val queryName = event.interaction.command.strings["summoner"]
-        val queryRegion = event.interaction.command.strings["region"]
+        val queryRegion = event.interaction.command.strings["region"] ?: "NA1"
+
+        if (queryName.isNullOrBlank()) {
+            response.respond {
+                content = "Insira o invocador desejado"
+            }
+
+            return
+        }
 
         val blank = "<:transparent:1142620050952556616>"
         val champions = Kono.riot.dDragonAPI.champions
