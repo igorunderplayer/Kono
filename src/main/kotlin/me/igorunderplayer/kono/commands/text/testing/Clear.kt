@@ -1,4 +1,4 @@
-package me.igorunderplayer.kono.commands.testing
+package me.igorunderplayer.kono.commands.text.testing
 
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
@@ -30,7 +30,7 @@ class Clear : BaseCommand(
         event.kord.rest.channel.bulkDelete(
             event.message.channelId,
             BulkDeleteRequest(messages),
-            "Mensagens apagadas por ${event.message.author?.tag} (${event.message.author?.id})"
+            "Mensagens apagadas por ${event.message.author?.username} (${event.message.author?.id})"
         )
 
         event.message.reply {

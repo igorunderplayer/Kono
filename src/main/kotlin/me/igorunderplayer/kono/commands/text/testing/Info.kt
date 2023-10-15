@@ -1,4 +1,4 @@
-package me.igorunderplayer.kono.commands.testing
+package me.igorunderplayer.kono.commands.text.testing
 
 import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed

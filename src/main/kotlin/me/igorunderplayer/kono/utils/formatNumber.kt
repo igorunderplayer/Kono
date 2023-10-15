@@ -1,6 +1,6 @@
 package me.igorunderplayer.kono.utils
 
-public fun formatNumber(number: Int): String {
+fun formatNumber(number: Int): String {
     val billion = 1_000_000_000L
     val million = 1_000_000L
     val thousand = 1_000L

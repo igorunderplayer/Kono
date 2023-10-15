@@ -1,4 +1,4 @@
-package me.igorunderplayer.kono.commands.lol
+package me.igorunderplayer.kono.commands.text.lol
 
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent

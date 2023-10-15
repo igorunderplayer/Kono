@@ -3,11 +3,12 @@ package me.igorunderplayer.kono.commands
 import dev.kord.common.entity.Permission
 import dev.kord.core.Kord
 import dev.kord.core.behavior.reply
+import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.message.MessageCreateEvent
-import me.igorunderplayer.kono.commands.lol.LoLChampion
-import me.igorunderplayer.kono.commands.lol.LoLMatches
-import me.igorunderplayer.kono.commands.lol.LoLProfile
-import me.igorunderplayer.kono.commands.testing.*
+import me.igorunderplayer.kono.commands.text.lol.LoLChampion
+import me.igorunderplayer.kono.commands.text.lol.LoLMatches
+import me.igorunderplayer.kono.commands.text.lol.LoLProfile
+import me.igorunderplayer.kono.commands.text.testing.*
 import org.slf4j.LoggerFactory
 
 enum class CommandCategory {
@@ -21,8 +22,9 @@ enum class CommandCategory {
 class CommandManager(private val kord: Kord)  {
     private val logger = LoggerFactory.getLogger(this::class.java)
     val commandList = mutableListOf<BaseCommand>()
+    private val applicationCommandList = mutableListOf<KonoSlashCommand>()
 
-    fun start() {
+    suspend fun start() {
         registerCommand(Avatar())
         registerCommand(Info())
         registerCommand(Help())
@@ -35,6 +37,12 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(LoLProfile())
         registerCommand(LoLChampion())
         registerCommand(LoLMatches())
+
+
+        // Register slash commands
+
+        registerSlashCommand(me.igorunderplayer.kono.commands.slash.testing.Info())
+        registerSlashCommand(me.igorunderplayer.kono.commands.slash.lol.LoLProfile())
     }
 
     private fun registerCommand(command: BaseCommand) {
@@ -53,12 +61,35 @@ class CommandManager(private val kord: Kord)  {
         commandList.add(command)
     }
 
+    private suspend fun registerSlashCommand(command: KonoSlashCommand) {
+        val commandFound = applicationCommandList.any {
+            it.name.lowercase() == command.name.lowercase()
+        }
+
+        if (commandFound) {
+            val red = "\u001b[31m"
+            val reset = "\u001b[0m"
+
+            logger.error("$red ${command.name} is already registered, skipped! $reset")
+            return
+        }
+
+        command.setup(kord)
+        applicationCommandList.add(command)
+    }
+
     fun searchCommand (search: String): BaseCommand? {
         val lowerCase = search.lowercase()
 
         return commandList.find {
             it.name == lowerCase || it.aliases.contains(lowerCase)
         }
+    }
+
+    suspend fun handleChatInputCommand(event: ChatInputCommandInteractionCreateEvent) {
+        val cmd = this.applicationCommandList.find { it.name == event.interaction.command.rootName }
+
+        cmd?.run(event)
     }
 
     suspend fun handleCommand(event: MessageCreateEvent) {

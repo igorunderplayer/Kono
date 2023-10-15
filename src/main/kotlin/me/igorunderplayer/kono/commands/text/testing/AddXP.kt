@@ -1,4 +1,4 @@
-package me.igorunderplayer.kono.commands.testing
+package me.igorunderplayer.kono.commands.text.testing
 
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent

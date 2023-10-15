@@ -1,4 +1,4 @@
-package me.igorunderplayer.kono.commands.testing
+package me.igorunderplayer.kono.commands.text.testing
 
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
@@ -7,15 +7,11 @@ import io.ktor.client.request.forms.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import me.igorunderplayer.kono.Config
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
 import me.igorunderplayer.kono.utils.getMentionedUser
 import me.igorunderplayer.kono.utils.getOrCreateDBUser
-import no.stelar7.api.r4j.basic.APICredentials
-import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
-import no.stelar7.api.r4j.impl.R4J
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
@@ -80,7 +76,7 @@ class Profile : BaseCommand(
         val stringWidth = fontMetrics.stringWidth(user.username)
         g2.font = subInfoFont
         g2.paint = Color.LIGHT_GRAY
-        g2.drawString('#' + user.discriminator, 152 + stringWidth + 4, 46)
+        g2.drawString('#' + user.username, 152 + stringWidth + 4, 46)
         g2.drawString("${dbUser.koins} Koins", 152, 78)
         g2.drawString("Level: ${xpUser.level}", 152, 106)
         g2.drawString("XP: ${xpUser.actualXp}/$xpToLevelUp", 152, 134)

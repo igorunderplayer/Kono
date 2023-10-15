@@ -2,9 +2,7 @@ package me.igorunderplayer.kono.events
 
 import dev.kord.core.entity.Emoji
 import dev.kord.core.event.gateway.ReadyEvent
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.forEach
 import me.igorunderplayer.kono.Kono
 
 suspend fun onReady(event: ReadyEvent) {
@@ -25,5 +23,5 @@ suspend fun onReady(event: ReadyEvent) {
 
     Kono.emojis = konoEmojis
 
-    println("$purple Ready as ${event.kord.getSelf().tag} (${event.kord.selfId}) $reset")
+    println("$purple Ready as ${event.kord.getSelf().username} (${event.kord.selfId}) $reset")
 }

@@ -6,7 +6,6 @@ import java.util.*
 
 // Saw this on https://github.com/davidffa/D4rkBotKt/blob/main/src/main/kotlin/me/davidffa/d4rkbotkt/Credentials.kt
 class Config {
-
     companion object {
         private val properties = Properties()
         val token: String get() = properties.getProperty("TOKEN")
@@ -14,8 +13,6 @@ class Config {
         val riotApiKey: String get() = properties.getProperty("RIOT_API_KEY")
         val port: Int get() = properties.getProperty("PORT").toInt()
     }
-
-
 
     fun load(path: String = "./config.properties"): Config {
         try {

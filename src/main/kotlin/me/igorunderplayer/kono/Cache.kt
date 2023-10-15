@@ -11,14 +11,12 @@ import java.util.concurrent.TimeUnit
 class Cache {
     private val levelingGuilds = hashMapOf<Snowflake, HashMap<String, LevelInfo>>()
 
-
     suspend fun start() {
 
         setupXPCache()
 
         val threadPool = Executors.newSingleThreadScheduledExecutor()
         threadPool.scheduleWithFixedDelay({
-
             Kono.cache.levelingGuilds.forEach {
                 runBlocking {
                     Kono.db.guildsCollection.updateOneById(
