@@ -2,6 +2,7 @@ package me.igorunderplayer.kono
 
 import dev.kord.core.Kord
 import dev.kord.core.entity.Emoji
+import dev.kord.gateway.ALL
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import me.igorunderplayer.kono.commands.CommandManager
@@ -53,7 +54,7 @@ class Kono {
         commands.start()
 
         kord.login {
-            intents = Intents.all
+            intents = Intents.ALL
         }
     }
 }

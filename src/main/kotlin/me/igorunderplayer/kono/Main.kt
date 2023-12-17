@@ -1,22 +1,24 @@
 package me.igorunderplayer.kono
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 object Launcher {
+    @OptIn(DelicateCoroutinesApi::class)
     @JvmStatic
     fun main(args: Array<String>) {
         runBlocking {
             Config().load()
 
-             launch (Dispatchers.IO) {
-                 Server().start()
-             }
+            val serverJob = GlobalScope.launch(Dispatchers.IO) {
+                Server().start()
+            }
 
-            launch (Dispatchers.IO) {
+            val botJob = GlobalScope.launch {
                 Kono().start()
             }
+
+            serverJob.join()
+            botJob.join()
         }
     }
 }
