@@ -9,8 +9,10 @@ import dev.kord.rest.builder.message.embed
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.KonoSlashCommand
 import me.igorunderplayer.kono.utils.formatNumber
+import me.igorunderplayer.kono.utils.regionFromLeagueShard
 import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
 import no.stelar7.api.r4j.basic.constants.types.lol.GameQueueType
+
 
 class LoLProfile() : KonoSlashCommand {
     override val name: String = "lolprofile"
@@ -20,7 +22,7 @@ class LoLProfile() : KonoSlashCommand {
             this.name,
             this.description
         ) {
-            string("summoner", "summoner's name") {
+            string("riot-id", "summoner's riot id") {
                 required = true
             }
 
@@ -36,12 +38,12 @@ class LoLProfile() : KonoSlashCommand {
 
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val response = event.interaction.deferPublicResponse()
-        val queryName = event.interaction.command.strings["summoner"]
+        val queryAccount = event.interaction.command.strings["riot-id"]
         val queryRegion = event.interaction.command.strings["region"] ?: "NA1"
 
-        if (queryName.isNullOrBlank()) {
+        if (queryAccount.isNullOrBlank()) {
             response.respond {
-                content = "Insira o invocador desejado"
+                content = "Insira o Riot ID do invocador desejado"
             }
 
             return
@@ -49,8 +51,29 @@ class LoLProfile() : KonoSlashCommand {
 
         val blank = "<:transparent:1142620050952556616>"
         val champions = Kono.riot.dDragonAPI.champions
-        val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByName(LeagueShard.fromString(queryRegion).get(), queryName) ?: return
+
+        val queryName = queryAccount.split('#').first()
+        var queryTag = queryAccount.split('#').getOrNull(1)
+
+        if (queryTag.isNullOrBlank()) {
+            queryTag = queryRegion
+        }
+
+        val account = Kono.riot.accountAPI.getAccountByTag(regionFromLeagueShard(LeagueShard.fromString(queryRegion).get()), queryName, queryTag)
+
+        val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByPUUID(LeagueShard.fromString(queryRegion).get(), account.puuid)
+
+        if (summoner == null) {
+            response.respond {
+                content = "Invocador não encontrado!"
+            }
+
+            return
+        }
+
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
+
+        println("Summoner: $summoner")
 
         response.respond {
             embed {
@@ -77,10 +100,11 @@ class LoLProfile() : KonoSlashCommand {
                 field {
                     name = "Melhores campeões"
                     inline = true
-                    value = summoner.championMasteries.slice(IntRange(0, 4)).joinToString("\n") { championMastery ->
+                    value = summoner.championMasteries.slice(IntRange(0, 2)).joinToString("\n") { championMastery ->
                         val champion = champions[championMastery.championId]!!
                         val emoji = Kono.emojis.firstOrNull { it.name == "lolchampion_${champion.key}" }
-                        val iconText = emoji?.mention ?: champion.name
+                        println("lolchampion_${champion.key.replace(" ", "", true)}")
+                        val iconText = emoji?.mention ?: ""
                         "$iconText ${champion.name} - ${formatNumber(championMastery.championPoints)}"
                     }
                 }

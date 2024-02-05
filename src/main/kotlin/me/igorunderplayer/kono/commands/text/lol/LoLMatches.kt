@@ -7,6 +7,7 @@ import dev.kord.rest.builder.message.embed
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.BaseCommand
 import me.igorunderplayer.kono.commands.CommandCategory
+import me.igorunderplayer.kono.utils.regionFromLeagueShard
 import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
 import no.stelar7.api.r4j.basic.constants.api.regions.RegionShard
 
@@ -19,9 +20,31 @@ class LoLMatches : BaseCommand(
 
         // TODO: Embed pagination
 
-        val query = args.joinToString(" ")
+        val riotId = args.getOrNull(0)
+        val region = args.getOrNull(1)
 
-        val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByName(LeagueShard.BR1, query)
+        if (riotId.isNullOrBlank() || region.isNullOrBlank()) {
+            event.message.reply {
+                content = "Por favor insira as informações necessarias (RiotID e região) \n" +
+                        "Exemplo: `lolmatches duduelista#BR1 br1` \n\n" +
+                        "Obs: tag é opcional"
+            }
+
+            return
+        }
+
+        val queryName =  riotId.split('#').first()
+        var queryTag = riotId.split('#').getOrNull(1)
+
+
+        if (queryTag.isNullOrBlank()) {
+            queryTag = region
+        }
+
+        val account = Kono.riot.accountAPI.getAccountByTag(regionFromLeagueShard(LeagueShard.fromString(region).get()), queryName, queryTag)
+
+        val summoner = Kono.riot.loLAPI.summonerAPI.getSummonerByPUUID(LeagueShard.fromString(region).get(), account.puuid)
+
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
         val matches = Kono.riot.loLAPI.matchAPI.getMatchList(RegionShard.AMERICAS, summoner.puuid, null, null, 0, 5, null, null)
 

@@ -7,7 +7,6 @@ import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.message.MessageCreateEvent
 import me.igorunderplayer.kono.commands.text.lol.LoLChampion
 import me.igorunderplayer.kono.commands.text.lol.LoLMatches
-import me.igorunderplayer.kono.commands.text.lol.LoLProfile
 import me.igorunderplayer.kono.commands.text.testing.*
 import org.slf4j.LoggerFactory
 
@@ -33,7 +32,6 @@ class CommandManager(private val kord: Kord)  {
         registerCommand(Rank())
         registerCommand(Clear())
 
-        registerCommand(LoLProfile())
         registerCommand(LoLChampion())
         registerCommand(LoLMatches())
 

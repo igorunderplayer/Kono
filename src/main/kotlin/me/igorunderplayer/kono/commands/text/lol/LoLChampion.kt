@@ -1,5 +1,6 @@
 package me.igorunderplayer.kono.commands.text.lol
 
+import dev.kord.common.Locale
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.rest.builder.message.embed
@@ -16,7 +17,10 @@ class LoLChampion : BaseCommand(
         val query = args.joinToString(" ")
         val latestVersion = Kono.riot.dDragonAPI.versions[0]
 
-        val champion = Kono.riot.dDragonAPI.getChampions(latestVersion, "pt_BR").values.find {
+        val locale = event.message.getGuildOrNull()?.preferredLocale ?: Locale.ENGLISH_UNITED_STATES
+        val localeString = "${locale.language}_${locale.country}"
+
+        val champion = Kono.riot.dDragonAPI.getChampions(latestVersion, localeString).values.find {
             it.name.lowercase() == query.lowercase()
         } ?: return
 
