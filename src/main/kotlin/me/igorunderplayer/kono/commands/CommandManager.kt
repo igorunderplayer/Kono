@@ -39,7 +39,7 @@ class CommandManager(private val kord: Kord)  {
         // Register slash commands
 
         registerSlashCommand(me.igorunderplayer.kono.commands.slash.testing.Info())
-        registerSlashCommand(me.igorunderplayer.kono.commands.slash.lol.LoLProfile())
+        registerSlashCommand(me.igorunderplayer.kono.commands.slash.lol.LoLCommands())
     }
 
     private fun registerCommand(command: BaseCommand) {
@@ -74,6 +74,7 @@ class CommandManager(private val kord: Kord)  {
         command.setup(kord)
         applicationCommandList.add(command)
     }
+
 
     fun searchCommand (search: String): BaseCommand? {
         val lowerCase = search.lowercase()

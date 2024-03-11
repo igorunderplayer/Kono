@@ -1,40 +1,18 @@
 package me.igorunderplayer.kono.commands.slash.lol
 
-import dev.kord.core.Kord
 import dev.kord.core.behavior.interaction.response.respond
-import dev.kord.core.entity.application.GlobalChatInputCommand
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
-import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.embed
 import me.igorunderplayer.kono.Kono
-import me.igorunderplayer.kono.commands.KonoSlashCommand
+import me.igorunderplayer.kono.commands.KonoSlashSubCommand
 import me.igorunderplayer.kono.utils.formatNumber
 import me.igorunderplayer.kono.utils.regionFromLeagueShard
 import no.stelar7.api.r4j.basic.constants.api.regions.LeagueShard
 import no.stelar7.api.r4j.basic.constants.types.lol.GameQueueType
 
-
-class LoLProfile() : KonoSlashCommand {
-    override val name: String = "lolprofile"
-    override val description: String = "lolprofile"
-    override suspend fun setup(kord: Kord): GlobalChatInputCommand {
-        return kord.createGlobalChatInputCommand(
-            this.name,
-            this.description
-        ) {
-            string("riot-id", "summoner's riot id") {
-                required = true
-            }
-
-            string("region", "summoner's region") {
-                for (shard in LeagueShard.entries) {
-                    choice(shard.prettyName(), shard.value)
-                }
-
-                required = true
-            }
-        }
-    }
+class Profile: KonoSlashSubCommand {
+    override val name = "profile"
+    override val description = "mostra perfil de alguem"
 
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val response = event.interaction.deferPublicResponse()
@@ -73,8 +51,6 @@ class LoLProfile() : KonoSlashCommand {
 
         val summonerIcon = Kono.riot.dDragonAPI.profileIcons[summoner.profileIconId.toLong()]!!
 
-        println("Summoner: $summoner")
-
         response.respond {
             embed {
                 author {
@@ -103,7 +79,6 @@ class LoLProfile() : KonoSlashCommand {
                     value = summoner.championMasteries.slice(IntRange(0, 2)).joinToString("\n") { championMastery ->
                         val champion = champions[championMastery.championId]!!
                         val emoji = Kono.emojis.firstOrNull { it.name == "lolchampion_${champion.key}" }
-                        println("lolchampion_${champion.key.replace(" ", "", true)}")
                         val iconText = emoji?.mention ?: ""
                         "$iconText ${champion.name} - ${formatNumber(championMastery.championPoints)}"
                     }

@@ -24,7 +24,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     // Discord
-    implementation("dev.kord:kord-core:0.12.0")
+    implementation("dev.kord:kord-core:0.13.1")
 
     // Logging
     implementation("ch.qos.logback:logback-core:1.4.14")
