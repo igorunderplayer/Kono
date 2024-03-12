@@ -34,7 +34,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo-coroutine:4.11.0")
 
     // Riot
-    implementation("com.github.stelar7:R4J:2.4.5")
+    implementation("com.github.stelar7:R4J:2.4.6")
 
     // Ktor
     implementation("io.ktor:ktor-server-core-jvm:2.3.7")
