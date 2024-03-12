@@ -19,7 +19,6 @@ class LoLCommands(): KonoSlashCommand {
 
     override suspend fun setup(kord: Kord): GlobalChatInputCommand {
         return kord.createGlobalChatInputCommand(this.name, this.description) {
-
             subCommand(profile.name, profile.description) {
                 string("riot-id", "summoner's riot id") {
                     required = true
@@ -58,10 +57,10 @@ class LoLCommands(): KonoSlashCommand {
         val cmd = event.interaction.command as SubCommand
 
         when(cmd.name) {
-            "profile" -> {
+            profile.name -> {
                 profile.run(event)
             }
-            "points" -> {
+            points.name -> {
                 points.run(event)
             }
             else -> {

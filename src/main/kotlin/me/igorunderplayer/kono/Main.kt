@@ -9,16 +9,16 @@ object Launcher {
         runBlocking {
             Config().load()
 
-            val serverJob = GlobalScope.launch(Dispatchers.IO) {
-                Server().start()
-            }
-
             val botJob = GlobalScope.launch {
                 Kono().start()
             }
 
-            serverJob.join()
+            val serverJob = GlobalScope.launch(Dispatchers.IO) {
+                Server().start()
+            }
+
             botJob.join()
+            serverJob.join()
         }
     }
 }
