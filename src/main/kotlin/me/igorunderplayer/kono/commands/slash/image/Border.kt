@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.igorunderplayer.kono.commands.KonoSlashSubCommand
 import java.awt.Color
+import java.awt.GradientPaint
 import java.awt.RenderingHints
 import java.awt.geom.RoundRectangle2D
 import java.awt.image.BufferedImage
@@ -24,6 +25,7 @@ class Border: KonoSlashSubCommand {
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val user = event.interaction.command.users["user"]
         val color = event.interaction.command.strings["color"] ?: "#FFFFFF"
+        val color2 = event.interaction.command.strings["color2"] ?: color
 
         val avatar = user?.avatar?.cdnUrl?.toUrl {
             format = Image.Format.JPEG
@@ -45,7 +47,8 @@ class Border: KonoSlashSubCommand {
         }
 
         val bgColor = Color.decode(color)
-        val rounded = generateAvatarBorder(file, bgColor)
+        val bgColor2 = Color.decode(color2)
+        val rounded = generateAvatarBorder(file, bgColor, bgColor2)
 
         ByteArrayOutputStream().use {
             ImageIO.write(rounded, "png", it)
@@ -57,15 +60,16 @@ class Border: KonoSlashSubCommand {
         }
     }
 
-    private fun generateAvatarBorder(avatar: BufferedImage, background: Color = Color.WHITE): BufferedImage {
+    private fun generateAvatarBorder(avatar: BufferedImage, color: Color, color2: Color): BufferedImage {
         val width = avatar.width
         val height = avatar.height
         val pad = 32
         val output = BufferedImage(width + pad, height + pad, BufferedImage.TYPE_INT_ARGB)
         val g2 = output.createGraphics()
 
-        g2.background = background
-        g2.clearRect(0, 0, width + pad, height + pad)
+
+        g2.paint = GradientPaint(0F, 0F, color, 0F, height.toFloat(), color2)
+        g2.fillRect(0, 0, width + pad, height + pad)
 
         val qualityHints = RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         qualityHints[RenderingHints.KEY_RENDERING] = RenderingHints.VALUE_RENDER_QUALITY

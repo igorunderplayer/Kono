@@ -23,6 +23,7 @@ class ImageCommands: KonoSlashCommand {
                     required = true
                 }
                 string("color", "cor em hexadecimal (ex: #FFFFFF)")
+                string("color2", "cor em hexadecimal (ex: #FFFFFF)")
             }
 
             subCommand(pixelate.name, pixelate.description) {
