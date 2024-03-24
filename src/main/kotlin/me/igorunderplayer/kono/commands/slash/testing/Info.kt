@@ -36,6 +36,8 @@ class Info: KonoSlashCommand {
         descriptionBuilder.appendLine("☕ Versão do java: ${System.getProperty("java.version")}")
         descriptionBuilder.appendLine("☕ Versão do kotlin: ${KotlinVersion.CURRENT}")
         descriptionBuilder.appendLine()
+        descriptionBuilder.appendLine("\uD83D\uDDA5\uFE0F Sistema operacional: ${System.getProperty("os.name")}")
+        descriptionBuilder.appendLine()
         descriptionBuilder.appendLine("\uD83D\uDCBB Usando ${usedMemory}MB de ram \uD83D\uDC38")
         descriptionBuilder.appendLine("\uD83D\uDCBB Memoria disponivel: ${freeMemory}MB")
         descriptionBuilder.appendLine("\uD83D\uDCBB Total alocado: ${totalMemory}MB")
