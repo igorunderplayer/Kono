@@ -1,8 +1,11 @@
-package me.igorunderplayer.kono.commands.slash.image
+package me.igorunderplayer.kono.commands.slash.image.subcommand
 
 import dev.kord.core.behavior.interaction.respondEphemeral
 import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import dev.kord.rest.builder.interaction.SubCommandBuilder
+import dev.kord.rest.builder.interaction.attachment
+import dev.kord.rest.builder.interaction.number
 import io.ktor.client.request.forms.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +21,17 @@ import javax.imageio.ImageIO
 
 class Pixelate: KonoSlashSubCommand {
     override val name = "pixelate"
-    override val description = "deixa uma image pixelizada"
+    override val description = "deixa uma imagem pixelizada"
+
+    override fun options(): SubCommandBuilder.() -> Unit {
+        return {
+            attachment("image", "imagem para ser usada") {
+                required = true
+            }
+
+            number("pixel_size", "pixel size")
+        }
+    }
 
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val attachment = event.interaction.command.attachments["image"]

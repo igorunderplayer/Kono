@@ -25,9 +25,9 @@ class LoLMatches : BaseCommand(
 
         if (riotId.isNullOrBlank() || region.isNullOrBlank()) {
             event.message.reply {
-                content = "Por favor insira as informações necessarias (RiotID e região) \n" +
-                        "Exemplo: `lolmatches duduelista#BR1 br1` \n\n" +
-                        "Obs: tag é opcional"
+                content = "Please insert the required information (RiotID and Region) \n" +
+                        "Example: `lolmatches duduelista#BR1 br1` \n\n" +
+                        "_tag is optional_"
             }
 
             return

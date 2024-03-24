@@ -1,5 +1,6 @@
 package me.igorunderplayer.kono.events
 
+import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.entity.Emoji
 import dev.kord.core.event.gateway.ReadyEvent
 import kotlinx.coroutines.flow.filter
@@ -24,4 +25,9 @@ suspend fun onReady(event: ReadyEvent) {
     Kono.emojis = konoEmojis
 
     println("$purple Ready as ${event.kord.getSelf().username} (${event.kord.selfId}) $reset")
+
+    event.kord.editPresence {
+        status = PresenceStatus.Idle
+        listening("seus / comandos")
+    }
 }

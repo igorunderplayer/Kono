@@ -1,7 +1,9 @@
-package me.igorunderplayer.kono.commands.slash.lol
+package me.igorunderplayer.kono.commands.slash.lol.subcommand
 
 import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import dev.kord.rest.builder.interaction.SubCommandBuilder
+import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.embed
 import me.igorunderplayer.kono.Kono
 import me.igorunderplayer.kono.commands.KonoSlashSubCommand
@@ -13,6 +15,22 @@ import no.stelar7.api.r4j.basic.constants.types.lol.GameQueueType
 class Profile: KonoSlashSubCommand {
     override val name = "profile"
     override val description = "mostra perfil de alguem"
+
+    override fun options(): SubCommandBuilder.() -> Unit {
+        return {
+            string("riot-id", "summoner's riot id") {
+                required = true
+            }
+
+            string("region", "summoner's region") {
+                for (shard in LeagueShard.entries) {
+                    choice(shard.prettyName(), shard.value)
+                }
+
+                required = true
+            }
+        }
+    }
 
     override suspend fun run(event: ChatInputCommandInteractionCreateEvent) {
         val response = event.interaction.deferPublicResponse()
